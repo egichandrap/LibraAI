@@ -1,0 +1,141 @@
+=======
+import { useState, useRef, useEffect } from 'react';
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+export default function Home() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+=======
+export default function Home() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now(),
+      text: "😊 " + input,
+      sender: 'user',
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/chat/mangosteen', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: input }),
+      });
+
+      if (!response.ok) {
+        throw new Error('API call failed');
+      }
+
+      const data = await response.json();
+      const aiMessage: Message = {
+        id: Date.now() + 1,
+        text: "🤖 " + (data.text || 'AI response placeholder'),
+        sender: 'ai',
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error calling AI endpoint:', error);
+      const errorMessage: Message = {
+        id: Date.now() + 1,
+        text: 'Sorry, there was an error processing your request.',
+        sender: 'ai',
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+=======
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now(),
+      text: "😊 " + input,
+      sender: 'user',
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/chat/mangosteen', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: input }),
+      });
+
+      if (!response.ok) {
+        throw new Error('API call failed');
+      }
+
+      const data = await response.json();
+      const aiMessage: Message = {
+        id: Date.now() + 1,
+        text: "🤖 " + (data.text || 'AI response placeholder'),
+        sender: 'ai',
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error calling AI endpoint:', error);
+      const errorMessage: Message = {
+        id: Date.now() + 1,
+        text: 'Sorry, there was an error processing your request.',
+        sender: 'ai',
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  }, [input]);
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask Libra"
+            className="flex-1 bg-[#040404] text-white border border-gray-700 rounded-l-lg px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isLoading}
+          />
+=======
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask Libra"
+            className="flex-1 bg-[#040404] text-white border border-gray-700 rounded-l-lg px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none max-h-40 overflow-y-auto"
+            disabled={isLoading}
+            rows={1}
+          />
